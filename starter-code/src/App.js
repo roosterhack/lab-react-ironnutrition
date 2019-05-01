@@ -5,6 +5,7 @@ import './App.css';
 import foods from './foods.json'
 import FoodBox from './FoodBox'
 import AddForm from './AddForm';
+import Search from './Search'
 
 class App extends Component {
   state = {
@@ -36,6 +37,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <Search />
         <FoodBox foods={this.state.foods} showForm={this.state.showForm} />
         <AddForm showForm={this.state.showForm} addFood={this.addFood} />
         <button onClick={this.handleShowForm}>Add food</button>
