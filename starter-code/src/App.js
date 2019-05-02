@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import 'bulma/css/bulma.css';
 import './App.css';
 import foods from './foods.json'
@@ -9,15 +8,20 @@ import Search from './Search'
 
 class App extends Component {
   state = {
-    foods: [...foods],
-    showForm: false
-  }
+    form: false,
+    foodName: "",
+    foodImg: "",
+    calories: 0,
+    foods,
+    filtered: foods,
+    today: []
+  };
 
   //show/hide form 
   handleShowForm = () => {
-    let show = !this.state.showForm
+
     this.setState({
-      showForm: show
+      showForm: !this.state.showForm
     })
   }
 
@@ -30,15 +34,29 @@ class App extends Component {
       foods,
       showForm: false
     })
-
   }
 
+  //handle search
+  searchFood = value => {
+    const filtered = this.state.foods.filter(food => {
+      food.name.toLowerCase().includes(value.toLowerCase())
+    })
+    this.setState({
+      filtered
+    })
+  }
 
   render() {
     return (
       <React.Fragment>
-        <Search />
-        <FoodBox foods={this.state.foods} showForm={this.state.showForm} />
+        <Search searchFood={this.searchFood} />
+        <div style={{ width: "70%", float: "left" }}>
+          {this.state.filtered.map((el, i) => {
+            <FoodBox key={i} food={el} showForm={this.state.showForm} />
+          })
+          }
+        </div>
+
         <AddForm showForm={this.state.showForm} addFood={this.addFood} />
         <button onClick={this.handleShowForm}>Add food</button>
       </React.Fragment>
